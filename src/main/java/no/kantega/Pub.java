@@ -1,4 +1,4 @@
-package nerdschool.bar;
+package no.kantega;
 
 public class Pub {
 

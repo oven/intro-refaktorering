@@ -1,20 +1,17 @@
-package nerdschool.bar;
+package no.kantega;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PubPricesTest {
 
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
-
     private Pub pub;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         pub = new Pub();
     }
@@ -51,9 +48,7 @@ public class PubPricesTest {
 
     @Test
     public void testThatADrinkNotInTheSortimentGivesError() throws Exception {
-        expectedException.expect(RuntimeException.class);
-        expectedException.expectMessage("No such drink");
-        pub.computeCost("sanfranciscosling", false, 1);
+        assertThrows(RuntimeException.class, () -> pub.computeCost("sanfranciscosling", false, 1), "No such drink exists");
     }
 
     @Test
@@ -70,9 +65,7 @@ public class PubPricesTest {
 
     @Test
     public void testCanBuyAtMostTwoDrinksInOneGo() throws Exception {
-        expectedException.expect(RuntimeException.class);
-        expectedException.expectMessage("Too many");
-        pub.computeCost(Pub.BACARDI_SPECIAL, false, 3);
+        assertThrows(RuntimeException.class, () -> pub.computeCost(Pub.BACARDI_SPECIAL, false, 3), "Too many drinks, max 2");
     }
 
     @Test

@@ -1,69 +1,107 @@
-# Clean code and refactoring
+# Refaktorering og kodekvalitet
 
-Somewhere along the way code goes from good to bad. It's usually a combination of many small factors that when allowed 
-to take hold in your project, makes it hard to work with and downright frustrating. Your code starts to smell... bad...
+Det begynner så fint, men før du aner det slutter koden din å være lett å jobbe med. Mange små endringer både i kode og forretningslogikk 
+gjør at koden blir tidkrevende og kompleks å jobbe med og frustrasjonen øker. Derfor er det viktig å vedlikeholde koden og 
+gjøre rent etter seg, altså refaktorere (eller refaktorisere). 
 
+Presentasjonen til denne workshopen finner du i [presentasjon](presentasjon). 
 
-## [Open presentation slides](https://docs.google.com/presentation/d/1ORzLE5BdaLhQxudjh3xlWYCJEwQCTWWZZ5C3pT1eHdM)
+## Hva skal vi fokusere på i denne workshopen?
 
-## Focus of this lesson
-In this workshop you'll work together in a team. You'll get to know some of the most common code smells and how to fix them. After this workshop you'll know the basics of 
-clean code and how to refactor your smelly code with test coverage. 
+Du skal jobbe sammen med minst en annen om å forbedre kode. Dere har lært de mest vanlige problemene vi ser i kode og hvordan dere kan fikse dem. 
+Dagens oppgave er et sett med tester og kode som trenger forbedring. Funksjonelt er testene bra og dekker de fleste mulige refaktoreringer, selv om det
+finnes tilfeller der dere må endre testene også. Hovedfokuset i denne workshopen er å forbedre produksjonskoden. 
 
-## What you need
-- IntelliJ Community Edition: [IntelliJ Community Edition](https://www.jetbrains.com/idea/download/)
-- Java dev kit: [Java SE Development Kit](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-- Git 
-
-## How to get started
-
-* Start by cloning this repository into a folder on your computer. If you've never used git before, you can alternatively use the the "Download ZIP" button to the right.
-* Although you have this `README.md` file on your computer it's easier to read it on GitHub, so we recommend you keep this page open with the exercise tasks.
-
-## Exercises
-This repository contains a set of exercises organized in folders. Each folder contains a `README.md` describing the exercise.
-
-- [Exercise](assignment/)
+Læringsutbytte: 
+- identifisere problemer i kode
+- forstå funksjonalitet utfra tester
+- refaktorere med tester
+- diskutere design
+- samarbeide om design og implementasjon
 
 
-## Helpful resources
+## Hva trenger du? 
+- IntelliJ
+- Java 11
+- Git
+
+Klon repositoriet ned på maskinen din. Om dere skal parprogrammere ved å dele kode mellom dere kan det være en fordel å forke i stedet for å klone. 
+
+
+# Dagens oppgave
+
+Jobb sammen i grupper på 2 eller 3 personer. Gå gjennom Pub.java i no.kantega. Hvilke problemer identifiserer dere? Det 
+ligger en liten testsuite (PubPricesTest.java) som dekker funksjonaliteten som finnes. Selv om det er rom for forbedringer 
+feks på navngiving i testene, er det Pub.java dere skal konsentrere dere mest om i denne workshopen. Det finnes også varianter 
+av refaktorering som vil kreve nye tester, i så fall skriver dere dem.  
+
+## Hvordan starte
+
+:pencil2: Åpne prosjektet i IntelliJ ved å velge *Open* fra File-menyen, og klikke på intro-refaktoreringsmappen
+
+:pencil2: Kjør alle testene, gå gjennom både testene og koden
+
+:question: Hva gjør koden? Diskuter mellom dere slik at dere har samme forståelse av hva koden gjør
+
+:question: Hvilke problemer finner dere? Navngiving? Kommentarer? Magiske tall? Struktur-problemer? 
+
+:pencil2: Fiks alle de magiske tallene
+
+:pencil2: Forbedre navngiving på variabler og funksjoner som finnes slik at navnene reflekterer hva innholdet er
+
+:pencil2: Fjern kommentarer som ikke er nødvendige
+
+:pencil2: Lag funksjoner for uavhengige deler av koden som kan stå for seg selv
+
+Det er mange måter å refaktorere denne koden på, og selv om vi viser en variant til slutt betyr ikke det at andre måter å løse 
+dette problemet på er feil. Diskuter design og hvilke ideer dere har for å løse de problemene dere ser. Trenger dere 
+flere klasser, hva gjør de ulike klassene? Hvor er det tilstrekkelig med enkle grep, og hvor trengs større inngrep for å forbedre koden? 
+Hva er sannsynlige utvidelser av koden, og hvordan kan koden støtte dette på best mulig måte?
+
+Lykke til! 
+
+
+## Litt tips
+Noen tips til hvordan IntelliJ fungerer hvis du ikke har brukt det noe særlig: 
 - [IntelliJ video tutorials](https://www.jetbrains.com/idea/documentation/)
-- [IntelliJ for Eclipse users](https://www.jetbrains.com/help/idea/2016.3/eclipse.html)
 - [IntelliJ testing](https://www.jetbrains.com/help/idea/2016.3/testing.html)
 
 
-## Shortlist of code smells and ways to fix them
+## Kort liste over vanlige kodeproblemer 
 
-* Duplicated code:
-Copy/paste is dangerous! Can be that different parts of the code do the same thing. Or different algorithms that give same result.
+* Duplisert kode:
 
-Collect into a single place, and adhere to the Single Responsibility Principle.
+Det går bra å kopiere kode. Som oftest. Men det gir flere steder samme feil kan opptre, og forvirrende oppførsel når en feil du 
+har rettet ikke er rettet likevel fordi koden finnes flere steder. Samle kode som bør være samlet og overhold Single Responsibility Principle. 
+Relevante refaktoreringsmetoder: 
 
-	* Extract method.
-	* Extract class.
-	* Pull up method.
-	* Form template method.
+    * Extract method
+    * Exctract class
+    * Pull up method
+    * Form template method
 
-* Long method:
-As functionality grows over time, so do methods. How do we know it's too long?
-Line count is one measure, number of execution paths is a better measure.
+* Lang metode: 
 
-Split into smaller methods. Make sure each does only one thing. Split into several classes, make sure each class has a Single Responsibility.
+Metoder vokser over tid. Men når er det for lang? Du kan bruke rene linjeantall, men antall eksekveringsstier eller voksende 
+antall innrykk også. Del metoden opp i mindre metoder, der hver metode har et ansvarsområde på riktig abstraksjonsnivå. Kanskje du også 
+må dele opp i klasser? Relevante refaktoreringsmetoder:
 
 	* Extract method.
 	* Replace temp with query.
 	* Replace method with method object.
 	* Decompose conditional.
 
-* Long parameter list:
+* Lange parameter-lister til funksjoner eller klasser: 
+
+
 	* Replace parameter with method.
 	* Introduce parameter object.
 	* Preserve whole object.
 
-* Large class/divergent change/data clumps:
-Data clumps is a specific type of duplication where the same or similar group of fields can be spotted in different classes. 
+* Store klasser/klumper med data/divergerende endringer: 
 
-Extract the clump into a class with the methods from the different classes. 
+Dataklumper (data clumps) er en type duplisering der samme eller lignende gruppe av felter finnes i flere klasser. Lag en klasse med 
+nødvendige metoder som kan brukes i de ulike klassene. Relevante refaktoreringsmetoder:
 
 	* Extract class.
 	* Extract subclass.
@@ -72,29 +110,29 @@ Extract the clump into a class with the methods from the different classes.
 	* Introduce parameter object.
 	* Preserve whole object.
 
-* Data class:
-All fields and no functionality makes the object a dull quiet thing.
+* Dataklasser: 
 
-Look around the code for functionality that naturally belongs with the fields and move it into the class. 
+Inneholder mange felter men ingen funksjonalitet. Se etter kode andre steder som naturlig skulle hørt hjemme med datafeltene. 
+Relevante refaktoreringsmetoder:
 
 	* Move method.
 	* Encapsulate field.
 	* Encapsulate collection.
 
 * Shotgun surgery:
-Changing one small thing idea-wise ends up changing lots of similar changes all over the code.
 
-Chances are, you are missing an object. Introduce one, so that changes to the idea can be expressed in a single place. 
+En liten endring (konseptuelt) ender opp med endringer mange steder i kodebasen. Se om en klasse kan gjøre at konseptet 
+kan samles et sted. 
+Relevante refaktoreringsmetoder: 
 
 	* Move method.
 	* Move field.
 
 * Feature envy/inappropriate intimacy:
-A method is doing operations entirely on an object or values outside the current class.
-Classes are reaching into each other for values.
 
-The functionality is in the wrong place Move it to the object with the values it wants to be with. You may need to move 
-it to a new class, or merge classes.
+Metode som gjør operasjoner på et objekt eller felt som ikke finnes i klassen du er i. Klasser henter verdier fra hverandre 
+hele tiden. Flytt funksjonaliteten til klassen som har riktige verdier, lag en ny klasse eller samle klassene. 
+Relevante refaktoreringsmetoder:
 
 	* Move method.
 	* Move field.
@@ -102,74 +140,91 @@ it to a new class, or merge classes.
 
 * Primitive obsession:
 
-A programmer who thinks it’s too much overhead to use an object for just a few simple values. This is what compilers are for. 
+Det er OK å ha små klasser dersom det gjør at resten av koden slipper å forholde seg til noen få verdier som alltid opptrer sammen. 
+Relevante refaktoreringsmetoder:
 
 	* Replace data value with object.
 	* Replace type code with class.
 
-* Switch statements:
-Switching on an object property to do different things often means that property has meaning, not just a simple value. 
+* Switch-blokker:
 
-Consider replacing switch statement with polymorphism – make each value of the switching property determine a new subclass.
+Er verdiene du itererer over bare enkle verdier, eller har de en dypere mening? Vurder å bytte ut switch-blokken med polymorfisme og subklasser. 
+Relevante refaktoreringsmetoder:
 
 	* Replace conditionals with polymorphism.
 	* Replace type code with subclasses.
 	* Replace parameter with explicit methods.
 	* Introduce null object.
 
-* Speculative generality:
-The creation of a solution that will solve that whole class of problems, and all their varieties.
+* Vi skal bare gjøre det litt mer generelt: 
 
-You Ain't Gonna Need It. Take it out. Simple code is always better.
+En løsning som er unødig kompleks og løser mer enn det dere trenger nå, gjerne i alle mulige varianter. Du trenger det mest sannsynlig 
+ikke nå. Enkelt er alltid bedre enn komplekst. 
+Relevante refaktoreringsmetoder:
 
 	* Collapse hierarchy.
 	* Remove parameter.
 	* Rename method.
 	* Inline class.
 
-* Temporary field:
+* Midlertidige variabler: 
+
+
 	* Extract class.
 	* Introduce null object.
 
-* Comments:
-Comments lie. Make your code expressive enough to tell the truth instead by paying attention to good naming.
+* Kommentarer: 
+
+Kommentarer lyver ofte. Bruk god navngiving. Bruk kommentarer hvis du må forklare hvorfor en spesifikk løsning er valgt. 
+Relevante refaktoreringsmetoder:
 
 	* Extract method.
 	* Introduce assertion.
 
-### Examples of how to employ common methods:
+### Vanlige refaktoreringsmetoder: 
 ######(google is your friend)
 
 * Pull up method:
-	- Pull a method up into a superclass.
+	- Dra med deg metoden opp i en superklasse
+
 
 * Form template method:
-	- Generalise methods so that the constituents are the same, then pull up method.
-	- Have the specialised parts in subclass methods that are abstract in the super class.
+    - Generaliser metodene slik at inneholdet er likt, og dra opp metoden. 
+    - Er det spesielle ting som kun er relevant is subklassen? Lag en abstrakt metode i superklassen som implementeres i 
+    hver av subklassene. 
 
+	
 * Replace conditional with polymorphism:
-	- Move each "leg" of the conditional into an overriding method in a subclass, and make the original method abstract.
+    - Flytt hver del av avgjørelsestreet i en override-metode i en subklasse og gjør hovedmetoden abstrakt
 
-* Introduce null object:
-	- Rather than returning null, return an object (fex a subclass) representing the null condition (i.e. base case).
+
+* Null-objekt:
+	- I stedet for å returere null, returneres et objekt (kan være en subklasse) som representerer null-tilfellet (feks 
+	ingen aksjon). 
+	
 
 * Encapsulate field:
-	- Make a field private and provide getter/setter.
+	- Gjør feltet privat, som aksesseres med get/set hvis nødvendig. Husk at stor bruk av set/get er indikasjon på at koden 
+	gjerne bør skrives om
+
 
 * Encapsulate collection:
-	- Rather than get/set for a collection, provide get, add and remove methods.
+	- Bruk get, add og remove-metoder for samlinger (collections) i stedet for get/set
+	
 
 * Collapse hierarchy:
-	- Remove unneeded classes.
+	- Fjern klasser som ikke trengs
 
 * Replace temp with query:
-	- Extract expression into method.
+	- Dra et uttrykk ut i en metode 
 
 * Decompose conditional:
-	- Extract method for condition (if part), then part and else parts.
+    - Egne metoder for det som skjer i if, else og finally (eller tilsvarende)
+	
 
 * Replace parameter with method:
-	- Remove parameter and let the receiver invoke the method.
+    - Fjern parameter og la mottageren kalle metoden
+	
 
 * Replace type code with subclasses:
-	- Replace i.e. constants with sub classes.
+	- Erstatt feks konstanter med subklasser 
