@@ -360,5 +360,106 @@ Note:
 @quote[A change made to the internal structure of software to make it easier to understand and cheaper to modify without changing its observable behavior](Martin Fowler)
 
 Note:
--
+- endre kode uten å endre resultat av koden
 
+
+---
+
+### Lesbarhet er essensielt
+
+Note:
+- økt lesbarhet gir økt vedlikeholdbarhet
+- kode du har skrevet for 6 mnd siden kunne like gjerne vært skrevet av noen
+  andre
+- 60 - 80% av tiden vår brukes på å lese kode
+- når trenger vi å refaktorere? 
+- hvilke refaktoreringsmetoder finnes?
+
+
+---
+
+### Forbedre navngiving
+
+
+```
+//Nope
+int n = numberOfRentals();
+int n2 = numberOfDaysSinceStart();
+double number = n / n2;
+
+//Better
+int numberOfRentals = numberOfRentals();
+int numberOfDays = numberOfDaysSinceStart();
+double averageRentalsPerDay = numberOfRentals / numberOfDays();
+
+```
+
+Note: 
+- Gjør koden selvdokumenterende
+- navngiving kan være vanskelig
+- variabler, funksjoner, klasser. 
+
+
+---
+
+### Flytt på kode
+
+```
+// Nope
+public void mainMethod() {  
+   // Code here
+   int numberOfRentals = numberOfRentals();
+   int numberOfDays = numberOfDaysSinceStart();
+   int averageNumberOfRentalsPerDay = numberOfRentals / numberOfDays;
+   // More code here
+}
+
+```
+
+
+Note: 
+- extract variable, function, class
+- kode som står for seg selv, uavhengig av andre ting, eget konsept, kan få egen
+  funksjon/klasse
+- bruker du samme variabel mange steder uten å si det? Lag en variabel så det er
+  lett å se hvor den kommer fra og alle steder den er brukt
+
+
+---
+
+### Flytt på kode 
+
+```
+// Better
+public void mainMethod() {   
+   // Code here
+   int averageNumberOfRentalsPerDay = calculateAverageRentalsPerDay();
+   // More code here
+}
+private void calculateAverageRentalsPerDay() {
+   int numberOfRentals = numberOfRentals();
+   int numberOfDays = numberOfDaysSinceStart();
+   return numberOfRentals / numberOfDays;
+}
+
+```
+
+Note: 
+- indikerer at disse tingene henger sammen, og at de ikke henger sammen med
+  resten av koden
+- både parametre og oppførsel som er egen enhet? Da er det gjerne en klasse
+- Prøv ut, bli vant til å eksperimentere med kodeendringer. Commit før du
+  begynner, så er det lett å rulle tilbake. Ha godt med tester, så er du trygg
+  på at du ikke ødelegger noe
+- motsatt av extract: inline: har du en funksjon med en linje som bare finnes et
+  sted? Kanskje det ikke trenger å være en funksjon. Lesbarhet senkes hvis det
+  finnes for mye av dette
+- move data (flytt variabler til annen klasse, utløses typisk av feature envy)
+- flytt funksjon til annen klasse hvis den passer bedre der
+
+
+---
+
+### Dagens oppgave
+
+Refaktorer problematisk kode
