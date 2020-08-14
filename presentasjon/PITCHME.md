@@ -2,39 +2,363 @@
 # Refaktorering
 
 Note:
-- Hva forbinder dere med refaktorering? (5 min)
+- Hva forbinder dere med refaktorering eller refaktorisering? (3 min)
+- Hva forbinder dere med god kvalitet på kode? (3 min)
 
 
+---?image=https://img.devrant.com/devrant/rant/r_225313_5QBY7.jpg&size=35%
 
---- 
+@snap[north]
+### Hva er god kvalitet?
+@snapend
 
-### Kode
+Note:
+- Bilde wtf/min
+- kvalitet er mye forskjellig. TL;DR: du forstår hva meningen er. Ikke bare hva
+  som teknisk skjer, men hvorfor og hvilken konsekvens dette har for
+  forretningen
+- vi får ikke gått gjennom alt i dag, men skal se litt på noen kodeegenskaper som
+  påvirker kvalitet
+
+
+---?image=https://cdn.aarp.net/content/dam/aarp/health/brain_health/2018/04/1140-name-recall-troubles.imgcache.rev3d7f9d37718cb83ff9ed72a0db9dfb55.jpg
+
+Note:
+- bilde navn på postits
+- Navngiving: mye viktigere enn du tror
+
+---
+
+
+@snap[north]
+### Beskriv intensjonen i navnet
+@snapend
 
 ```
-public class WhatWeWantToVerifyTest {
+//Nope
+public Report getReport() {
+}
 
-    @Test
-    public void assumptionForTestAndExpectedOutcome() {
-       //Given
-       ThingToTest ttt = new ThingToTest();
-       Result expected = new Result().withExpectedValues();
-
-       //When
-       Result result = ttt.methodToBeTested();
-
-       //Then
-       assertEquals(expectedValue, result);
-    }
+// Better
+public Report getExpenditureReport() {
 }
 ```
 
+Note:
+- hva er inneholdt i variabel eller funksjon? Hva er intensjonen?
+
+
+---
+
+@snap[north]
+### Beslektede navn impliserer slektskap
+@snapend
+
+```
+public void calculate(int n1, int n2, int n3, int x1, int x2) {
+}
+```
+
+Note:
+- forventer at n1, n2 og n3 er relaterte
+- forventer at x1 og x2 er relaterte
+- forventer at x-ene og n-ene er forskjellige konsepter
+- calculate: hva beregnes? Dette er dårlig navngiving. 
+
+
+---
+
+@snap[north]
+### Unngå generelle begreper
+@snapend
+
+```
+public class ExpenditureReportsRepository {
+    //Nope
+    public Report getReport() { }
+    public Report getReportInfo() { }
+    public Report getReportData() { }
+
+    //Better
+    public Report getReportSummary() { }
+    public Report getFullReportExcludingAccounts() { } 
+    public Report getFullReportIncludingAccounts() { } 
+}
+```
+
+Note:
+- hva er forskjell på info og data? Gir ingenting ekstra
+- hvilken info? Info/Data er vagt, uspesifikt.  
+- beskriv forskjell på funksjonene i navnet, ikke la det være en overraskelse
+- husk at mange slike metoder tar lang tid å sette seg inn i, særlig når
+  parameterlisten er lignende i tillegg
+
+
+---
+
+@snap[north]
+### Navn skal kunne uttales
+@snapend
+
+```
+//Nope
+Date crTs = new Date();
+
+//Better
+Date createdTimestamp = new Date();
+```
+
+Note:
+- vi bruker mer tid på å diskutere og snakke om kode enn å skrive
+- IDE-en hjelper deg med lengre navn
+
+
+---
+
+@snap[north]
+### Bruk søkbare navn
+@snapend
+
+```
+//Nope
+String str = "description";
+
+//Better
+String courseDescription = "description";
+```
+
+Note:
+- kodebaser er så store at vi søker etter relaterte begreper
+- generelle navn gir mye støy i søkeresultat
+- bli enige om hvilke forretningsbegrep som brukes slik at søking blir et
+  effektivt verktøy
+
+
+---
+
+@snap[north]
+### Et navn per konsept
+@snapend
+
+```
+//Nope
+public class Movie {
+    public List<String> getActors() { }
+    public List<String> retrieveGenres() { }
+    public String fetchDirector() { }
+```
+
+Note:
+- et konsept også for tekniske termer
+- noen skiller også implementasjonsdetaljer fra forretningslogikk
+  (ekstrem-varianten: skiller både på språk og plassering i fil)
+
+
+
+---?image=https://images.cdn3.stockunlimited.net/preview1300/mess-of-wires-connecting-computers-and-printers-in-office_1898729.jpg&size=100%
+
+@snap[north-east]
+### Funksjoner og klasser
+@snapend
+
+Note:
+- hva kjennetegner en god funksjon?
+- klasser er også veldig likt funksjoner, 
+
+
+---?image=number_of_lines_in_function.png&size=50%
+
+@snap[north]
+### Funksjoner er korte
+@snapend
+
+Note:
+- enkleste: antall linjer. Små funksjoner er generelt bra, store er generelt
+  dårlige. 
+- Hva er stort? Mer enn 20 linjer (ca). 
+- Jeg har jobbet med en funksjon på 1100 linjer, skyt meg nå. 
+- mennesker klarer kun å holde et begrenset antall konsepter i hodet samtidig,
+  maks 7. Vi må skrive kode som hjelper utvikleren. 
+
+
+
+---
+
+@snap[north]
+### Funksjoner har et abstraksjonsnivå
+@snapend
+
+```
+//Nope
+public void handleReport() {
+    Report expenseReport = expenseReportsRepository.getLatestReport();
+    Mail dailyExpensesMail = new Mail();
+    dailyExpensesMail.send();
+    mailRepository.save(dailyExpensesMail);
+    expenseReport.setStatus(STATUS_PROCESSED);
+}
+
+
+//Better
+public void processDailyExpensesReport() {
+    Report expenseReport = expenseReportsRepository.getLatestReport();
+    sendDailyExpensesMail(expenseReport);
+    expenseReport.setStatus(STATUS_PROCESSED);
+}
+```
+
+Note:
+- ikke bland høynivå- og lavnivå-instruksjoner
+- ikke bland ulike ansvarsområder (eks mailRepository har ingenting med å
+  håndtere daglig rapport å gjøre, men det har med å sende epost å gjøre)
+- enda verre tilfelle om det lages sql-statements i stedet for å bare kalle en
+  repository-metode
+- tenk på hva du ønsker å formidle til brukeren (utvikleren) på dette
+  tidspunktet
+
+
+---
+
+@snap[north]
+### Unngå bieffekter
+@snapend
+
+```
+//Nope
+public void sendMail(String from, String to, String text) {
+    MimeMessage message = new MimeMessage(session);
+    message.setFrom(new InternetAddress(from));
+    message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+    message.setText(text);
+    Transport.send(message);
+    redirectUserTo(“http://google.com”);
+}
+```
+
+Note:
+- redirect hører ikke hjemme her
+- søkt eksempel? Kanskje. Men denne type ting skjer. 
+- Denne er innlysende, men vær obs på mer subtile bieffekter
+
+
+---
+
+@snap[north]
+### Unngå duplisering
+@snapend
+
+```
+//Better
+public void sendMailToAllClerks(ApplicationForm form, List<Clerk> clerks){
+    for (Clerk clerk : clerks) {
+        sendMailToClerk(form clerk);
+    }
+}
+
+public void sendMailToClerk(Application form, Clerk clerk) {
+    MimeMessage message = new MimeMessage(session);
+    // ...
+    message.send();
+}
+```
 
 Note: 
-- vis en test i kode -- forklar hva de ulike delene skal gjøre
-- annotasjon: denne testen skal kjøres automatisk
-- navn: forretningsforklaring! Dette er dokumentasjon. testnavn forklarer
-  hvordan virker (spesifikke forretningsregler). Forklare hensikt
-- Given: Hvordan ser verden ut når du starter testen? Også kalt precondition (arrange, precondition)
-- When: Oppførselen du tester (act)
-- Then: Verifisere at resultatet av det du har gjort gir korrekt resultat (assert, postcondition)
+- ikke dupliser mellom disse metodene
+- dersom det er små forskjeller mellom hva som skjer for en og alle (feks i
+  hvordan subject genereres), se om du klarer å lage metodesignaturene like slik
+  at du kan unngå duplisering
+
+
+---?image=https://images.pexels.com/photos/1851415/pexels-photo-1851415.jpeg
+
+@snap[north-west]
+### @color[#27003D](Kommentarer)
+@snapend
+
+Note:
+- Bilde: kommentar-postits
+- Berømt sitat: 
+- lies, damn lies.. and statistics. 
+- Vel, vi kan legge på kommentarer på denne listen også. Kommentarer er ofte mer til hinder enn hjelp. 
+
+
+
+---
+
+@snap[north]
+### Kommentarer forteller hvorfor
+@snapend
+
+```
+if (number != undefined) { // Kan ikke bruke truthy/falsey her fordi
+// tallet 0 er falsey
+  doStuff();
+}
+```
+
+Note:
+- trenger du kommentarer til å forklare hva koden gjør er det på tide å
+  refaktorere
+- kode forteller hva som skjer
+- kommentarer forklarer hvorfor en løsning er valgt
+- kommentarer som kommenterer innlysende ting (repetisjon av funksjonsnavn feks,
+  forvirrer og gjør utvikleren usikker)
+
+
+
+---
+
+@snap[north]
+### Kommentarer må holdes i sync
+@snapend
+
+```
+public double estimateNumberOfPizzasToOrder(int numberOfCoders) {
+  // codersPerPizza is set to 2.0 because of hungry coders
+  double codersPerPizza = 3.0;
+  return (numberOfCoders / codersPerPizza) * 0.8;
+}
+
+```
+
+Note:
+- denne linjen tør ikke jeg endre. Er det kommentaren eller koden som er riktig?
+  Hvorfor ble det satt opp slik? 
+- kommentarer impliserer at noe er viktig, og da blir du usikker når det ikke
+  stemmer med virkeligheten
+
+
+
+---
+
+@snap[north]
+### Reduser usikkerhet
+@snapend
+
+Note:
+- Oppsummert: reduser kognitiv belastning så mye som mulig for den som skal lese
+  koden
+- navngiving er essensielt og tar mye tid
+- kommentarer brukes kun når det er absolutt nødvendig
+- funksjoner og klasser: små, har kun et ansvarsområde
+- hold det så enkelt som mulig
+
+
+
+---
+
+### Refaktorering
+
+Note:
+- også kalt refaktorisering
+- hva er det? 
+
+
+
+---
+
+@quote[A change made to the internal structure of software to make it easier to understand and cheaper to modify without changing its observable behavior](Martin Fowler)
+
+Note:
+-
 
