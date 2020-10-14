@@ -18,10 +18,12 @@ public abstract class DiscountCalculator {
     }
 
     public static class StudentDiscountCalculator extends DiscountCalculator {
+        public static final int DISCOUNT_PERCENT = 10;
+
         @Override
         public int applyDiscount(MenuItem drink) {
             int price = drink.getPrice();
-            int discount = price / 10;
+            int discount = price / DISCOUNT_PERCENT;
             return price - discount;
         }
     }
