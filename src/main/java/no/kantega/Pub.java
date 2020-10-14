@@ -1,16 +1,9 @@
 package no.kantega;
 
+import static no.kantega.Ingredient.*;
 import static no.kantega.MenuItem.*;
 
 public class Pub {
-
-
-    public static final int RUM = 65;
-    public static final int GRENADINE = 10;
-    public static final int LIME_JUICE = 10;
-    public static final int GREEN_STUFF = 10;
-    public static final int TONIC_WATER = 20;
-    public static final int GIN = 85;
 
     public int computeCost(MenuItem drink, boolean student, int quantity) {
 
@@ -25,10 +18,10 @@ public class Pub {
         }
         else if (drink.equals(A_PROPER_CIDER)) price = 110;
         else if (drink.equals(GT)) {
-            price = GIN + TONIC_WATER + GREEN_STUFF;
+            price = GIN.price + TONIC_WATER.price + GREEN_STUFF.price;
         }
         else if (drink.equals(BACARDI_SPECIAL)) {
-            price = GIN / 2 + RUM + GRENADINE + LIME_JUICE;
+            price = GIN.price / 2 + RUM.price + GRENADINE.price + LIME_JUICE.price;
         }
         else {
             throw new RuntimeException("No such drink exists");
