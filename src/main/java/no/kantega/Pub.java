@@ -12,7 +12,7 @@ public class Pub {
         }
         int price;
         if (drink.equals(ONE_BEER)) {
-            price = 74;
+            price = ONE_BEER.getPrice();
         } else if (drink.equals(ONE_CIDER)) {
             price = 103;
         }
