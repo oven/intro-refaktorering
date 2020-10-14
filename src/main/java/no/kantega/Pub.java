@@ -1,15 +1,11 @@
 package no.kantega;
 
+import static no.kantega.MenuItem.*;
+
 public class Pub {
 
 
-    public static final String ONE_BEER = "hansa";
-    public static final String ONE_CIDER = "grans";
-    public static final String A_PROPER_CIDER = "strongbow";
-    public static final String GT = "gt";
-    public static final String BACARDI_SPECIAL = "bacardi_special";
-
-    public int computeCost(String drink, boolean student, int quantity) {
+    public int computeCost(MenuItem drink, boolean student, int quantity) {
 
         if (quantity > 2 && (drink == GT || drink == BACARDI_SPECIAL)) {
             throw new RuntimeException("Too many drinks, max 2.");

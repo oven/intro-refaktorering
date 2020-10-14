@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static no.kantega.Pub.*;
+import static no.kantega.MenuItem.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -77,12 +77,6 @@ public class PubPricesTest {
             int actualPrice = pub.computeCost(GT, true, 1);
             assertEquals(115, actualPrice);
         }
-    }
-
-    @Test
-    @DisplayName("When they order a drink which is not on the menu, then they are refused.")
-    public void testThatADrinkNotInTheSortimentGivesError() throws Exception {
-        assertThrows(RuntimeException.class, () -> pub.computeCost("sanfranciscosling", false, 1));
     }
 
     @Nested
