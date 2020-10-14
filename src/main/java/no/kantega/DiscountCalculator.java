@@ -22,8 +22,8 @@ public abstract class DiscountCalculator {
         @Override
         public int applyDiscount(MenuItem drink) {
             int price = drink.getPrice();
-            price = price - price / 10;
-            return price;
+            int discount = price / 10;
+            return price - discount;
         }
     }
 }
