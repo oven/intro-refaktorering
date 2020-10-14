@@ -1,5 +1,7 @@
 package no.kantega;
 
+import java.util.Arrays;
+
 import static no.kantega.Ingredient.*;
 import static no.kantega.RecipeEntry.add;
 
@@ -17,11 +19,7 @@ public enum MenuItem {
     MenuItem(String id, RecipeEntry... ingredients) {
         this.id = id;
         this.isCocktail = true;
-        int price = 0;
-        for (RecipeEntry ingredient : ingredients) {
-            price += ingredient.getPrice();
-        }
-        this.price = price;
+        this.price = Arrays.stream(ingredients).mapToInt(RecipeEntry::getPrice).sum();
     }
 
     MenuItem(String id, int price) {
