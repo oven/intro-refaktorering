@@ -9,24 +9,23 @@ public class Pub {
     public static final String GT = "gt";
     public static final String BACARDI_SPECIAL = "bacardi_special";
 
-    public int computeCost(String drink, boolean student, int amount) {
+    public int computeCost(String drink, boolean student, int quantity) {
 
-        if (amount > 2 && (drink == GT || drink == BACARDI_SPECIAL)) {
+        if (quantity > 2 && (drink == GT || drink == BACARDI_SPECIAL)) {
             throw new RuntimeException("Too many drinks, max 2.");
         }
         int price;
         if (drink.equals(ONE_BEER)) {
             price = 74;
-        }
-        else if (drink.equals(ONE_CIDER)) {
+        } else if (drink.equals(ONE_CIDER)) {
             price = 103;
         }
         else if (drink.equals(A_PROPER_CIDER)) price = 110;
         else if (drink.equals(GT)) {
-            price = ingredient6() + ingredient5() + ingredient4();
+            price = gin() + tonicWater() + greenStuff();
         }
         else if (drink.equals(BACARDI_SPECIAL)) {
-            price = ingredient6()/2 + ingredient1() + ingredient2() + ingredient3();
+            price = gin() / 2 + rum() + grenadine() + limeJuice();
         }
         else {
             throw new RuntimeException("No such drink exists");
@@ -34,36 +33,30 @@ public class Pub {
         if (student && (drink == ONE_CIDER || drink == ONE_BEER || drink == A_PROPER_CIDER)) {
             price = price - price/10;
         }
-        return price*amount;
+        return price * quantity;
     }
 
-    //one unit of rum
-    private int ingredient1() {
+    private int rum() {
         return 65;
     }
 
-    //one unit of grenadine
-    private int ingredient2() {
+    private int grenadine() {
         return 10;
     }
 
-    //one unit of lime juice
-    private int ingredient3() {
-        return 10;
-    }
-    
-    //one unit of green stuff
-    private int ingredient4() {
+    private int limeJuice() {
         return 10;
     }
 
-    //one unit of tonic water
-    private int ingredient5() {
+    private int greenStuff() {
+        return 10;
+    }
+
+    private int tonicWater() {
         return 20;
     }
 
-    //one unit of gin
-    private int ingredient6() {
+    private int gin() {
         return 85;
     }
 }
