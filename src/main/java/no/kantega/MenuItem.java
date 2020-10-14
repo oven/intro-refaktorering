@@ -2,8 +2,8 @@ package no.kantega;
 
 public enum MenuItem {
     ONE_BEER("hansa", 74),
-    ONE_CIDER("grans"),
-    A_PROPER_CIDER("strongbow"),
+    ONE_CIDER("grans", 103),
+    A_PROPER_CIDER("strongbow", 110),
     GT("gt"),
     BACARDI_SPECIAL("bacardi_special");
 
