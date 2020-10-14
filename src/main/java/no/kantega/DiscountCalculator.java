@@ -6,11 +6,7 @@ public abstract class DiscountCalculator {
         if (drink.isCocktail) return new NoDiscountCalculator().applyDiscount(drink);
         if (student) return new StudentDiscountCalculator().applyDiscount(drink);
 
-        int price = drink.getPrice();
-        if (student && !drink.isCocktail) {
-            price = price - price / 10;
-        }
-        return price;
+        return new NoDiscountCalculator().applyDiscount(drink);
     }
 
     public abstract int applyDiscount(MenuItem drink);
@@ -23,7 +19,6 @@ public abstract class DiscountCalculator {
     }
 
     public static class StudentDiscountCalculator extends DiscountCalculator {
-
         @Override
         public int applyDiscount(MenuItem drink) {
             int price = drink.getPrice();
