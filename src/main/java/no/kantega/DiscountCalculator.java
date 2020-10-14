@@ -3,10 +3,13 @@ package no.kantega;
 public abstract class DiscountCalculator {
 
     public static int applyDiscount(MenuItem drink, boolean student) {
-        if (drink.isCocktail) return new NoDiscountCalculator().applyDiscount(drink);
-        if (student) return new StudentDiscountCalculator().applyDiscount(drink);
+        return getDiscountCalculator(drink, student).applyDiscount(drink);
+    }
 
-        return new NoDiscountCalculator().applyDiscount(drink);
+    private static DiscountCalculator getDiscountCalculator(MenuItem drink, boolean student) {
+        if (drink.isCocktail) return new NoDiscountCalculator();
+        if (student) return new StudentDiscountCalculator();
+        return new NoDiscountCalculator();
     }
 
     public abstract int applyDiscount(MenuItem drink);
