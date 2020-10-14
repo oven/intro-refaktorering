@@ -5,6 +5,13 @@ import static no.kantega.MenuItem.*;
 public class Pub {
 
 
+    public static final int RUM = 65;
+    public static final int GRENADINE = 10;
+    public static final int LIME_JUICE = 10;
+    public static final int GREEN_STUFF = 10;
+    public static final int TONIC_WATER = 20;
+    public static final int GIN = 85;
+
     public int computeCost(MenuItem drink, boolean student, int quantity) {
 
         if (quantity > 2 && (drink == GT || drink == BACARDI_SPECIAL)) {
@@ -33,26 +40,26 @@ public class Pub {
     }
 
     private int rum() {
-        return 65;
+        return RUM;
     }
 
     private int grenadine() {
-        return 10;
+        return GRENADINE;
     }
 
     private int limeJuice() {
-        return 10;
+        return LIME_JUICE;
     }
 
     private int greenStuff() {
-        return 10;
+        return GREEN_STUFF;
     }
 
     private int tonicWater() {
-        return 20;
+        return TONIC_WATER;
     }
 
     private int gin() {
-        return 85;
+        return GIN;
     }
 }
