@@ -6,15 +6,8 @@ public class Pub {
         if (quantity > 2 && drink.isCocktail) {
             throw new RuntimeException("Too many drinks, max 2.");
         }
-        int price = applyDiscount(drink, student);
+        int price = DiscountCalculator.applyDiscount(drink, student);
         return price * quantity;
     }
 
-    private int applyDiscount(MenuItem drink, boolean student) {
-        int price = drink.getPrice();
-        if (student && !drink.isCocktail) {
-            price = price - price/10;
-        }
-        return price;
-    }
 }
