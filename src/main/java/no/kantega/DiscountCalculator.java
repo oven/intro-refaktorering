@@ -2,11 +2,7 @@ package no.kantega;
 
 public abstract class DiscountCalculator {
 
-    public static int applyDiscount(MenuItem drink, boolean student) {
-        return getDiscountCalculator(drink, student).applyDiscount(drink);
-    }
-
-    private static DiscountCalculator getDiscountCalculator(MenuItem drink, boolean student) {
+    public static DiscountCalculator getInstance(MenuItem drink, boolean student) {
         if (drink.isCocktail) return new NoDiscountCalculator();
         if (student) return new StudentDiscountCalculator();
         return new NoDiscountCalculator();

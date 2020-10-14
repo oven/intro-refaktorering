@@ -5,7 +5,7 @@ public class Pub {
 
     public int computeCost(MenuItem drink, boolean student, int quantity) {
         orderValidator.validateOrder(drink, quantity);
-        int price = DiscountCalculator.applyDiscount(drink, student);
+        int price = DiscountCalculator.getInstance(drink, student).applyDiscount(drink);
         return price * quantity;
     }
 }
